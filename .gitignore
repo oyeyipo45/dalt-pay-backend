@@ -1,0 +1,9 @@
+dist/**/*
+/node_modules
+node_modules/
+variable.env
+public/dist/**/*
+app/**/*
+.env
+.DS_Store
+coverage
