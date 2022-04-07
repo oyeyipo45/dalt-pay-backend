@@ -27,8 +27,11 @@
     "@types/jest": "^27.4.1",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
+    "@types/validator": "^13.7.2",
+    "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "concurrently": "^7.1.0",
+    "config": "^3.3.7",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -46,6 +49,8 @@
     "typescript": "^4.6.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/config": "0.0.41",
     "@types/errorhandler": "^1.5.0"
   }
 }
