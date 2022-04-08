@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import server from '../src/server';
-import * as AuthController from '../src/controller/authController';
-import { registerUser } from '../src/controller/authController';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 const userId = new mongoose.Types.ObjectId().toString();
@@ -43,7 +41,7 @@ describe('GET Home', () => {
   });
 });
 
-describe('user', () => {
+describe('AUTH', () => {
   // user registration
 
   // Connect to database before any test
@@ -60,7 +58,7 @@ describe('user', () => {
 
    describe('Get all users before registration', () => {
      it('should return empty users array', async () => {
-       const { statusCode, body } = await request(server).get('/auth/users');
+       const { statusCode, body } = await request(server).get('/user/all');
        expect(statusCode).toBe(200);
        expect(body.data).toEqual([]);
      });
@@ -74,9 +72,9 @@ describe('user', () => {
       });
     });
   
-    describe('Get all users users after registration', () => {
+    describe('Get all users after registration', () => {
       it('should return the users array as payload', async () => {
-        const { statusCode, body } = await request(server).get('/auth/users');
+        const { statusCode, body } = await request(server).get('/user/all');
         expect(statusCode).toBe(200);
         expect(body.data.length).toBeGreaterThan(0);
       });
