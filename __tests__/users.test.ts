@@ -46,33 +46,44 @@ describe('GET Home', () => {
 describe('user', () => {
   // user registration
 
+  // Connect to database before any test
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
 
     await mongoose.connect(mongoServer.getUri());
   });
 
+  // Disconnect from database after all test have been ran
   afterAll(async () => {
     await mongoose.disconnect();
     await mongoose.connection.close();
   });
 
-  console.log(process.env.NODE_ENV, "process.env.NODE_ENVprocess.env.NODE_ENVvprocess.env.NODE_ENV");
+   describe('Get all users', () => {
+     it('should return empty users array', async () => {
+       const { statusCode, body } = await request(server).get('/auth/users');
+      console.log(body, "body 111")
+       expect(statusCode).toBe(200);
+       expect(body.data).toEqual([]);
+     });
+   });
 
-  describe('user registration', () => {
-    describe('given the username and password are valid', () => {
-       jest.setTimeout(30000);
-        
-      it('should return the user payload', async () => {
-
+    describe('Register user', () => {
+      it('Given the username and password are valid users should be regiatered successfully', async () => {
         const { statusCode, body } = await request(server).post('/auth/register').send(userPayload);
-        console.log(body, "boddd")
-
         expect(statusCode).toBe(200);
-
         expect(body).toEqual(userCreationResponse);
-
       });
     });
-  });
+  
+    describe('Get all users', () => {
+      it('should return the users array as payload', async () => {
+        const { statusCode, body } = await request(server).get('/auth/users');
+        console.log(body, 'body 2222');
+        expect(statusCode).toBe(200);
+        expect(body.data.length).toBeGreaterThan(0);
+      });
+    });
+
+   
 });

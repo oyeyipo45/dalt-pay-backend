@@ -34,7 +34,6 @@ app.use(
   })
 );
 }
-  ;
 
 app.use('/auth', authRouter);
 

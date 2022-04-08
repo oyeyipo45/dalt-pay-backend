@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import  UserModel  from '../models/User';
 
 export const registerUser = async (req: Request, res: Response) => {
-  console.log(req.body, 'reqqqqqqq');
+  const {email, password} = req.body
   try {
-    const user = await UserModel.create(req.body);
+    const user = await UserModel.create({email, password});
 
     res.status(200).json({ data: user, message: 'user created successfully' });
   } catch (error: any) {
