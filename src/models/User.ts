@@ -9,17 +9,30 @@ import config from 'config';
 import mongoosedbErrorHandler from 'mongoose-mongodb-errors';
 
 export type UserDocument = mongoose.Document & {
+  id?: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   resetPasswordToken: string;
   resetPasswordExpires: Date;
-    token: any;
-    createdAt: Date;
-    updatedAt: Date;
+  token: any;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 const userSchema = new mongoose.Schema(
   {
+    firstName: {
+      type: String,
+      lowercase: true,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      lowercase: true,
+      required: true,
+    },
     email: {
       type: String,
       unique: true,
@@ -39,9 +52,9 @@ const userSchema = new mongoose.Schema(
     token: {
       type: String,
       lowercase: true,
-        },
+    },
     createdAt: { type: Date, required: true, default: Date.now },
-    updatedAt: { type: Date, required: false,  },
+    updatedAt: { type: Date, required: false },
   },
   {
     toJSON: { virtuals: true },

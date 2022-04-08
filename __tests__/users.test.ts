@@ -8,7 +8,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 const userId = new mongoose.Types.ObjectId().toString();
 
 const userPayload = {
-  _id: '624f6493554faf532d72433c',
+  firstName: "damilola",
+  lastName: "oyeyipo",
   email: 'oyeyipeo45@gmail.com',
   password: '12345dfdfdfd',
 };
@@ -16,6 +17,8 @@ const userPayload = {
 const userCreationResponse = {
   data: {
     email: 'oyeyipeo45@gmail.com',
+    firstName: 'damilola',
+    lastName: 'oyeyipo',
     __v: 0,
     _id: expect.any(String),
     createdAt: expect.any(String),
@@ -26,12 +29,9 @@ const userCreationResponse = {
 };
 
 
-
-const userInput = {
-  email: 'test@example.com',
-  name: 'Jane Doe',
-  password: 'Password123',
-  passwordConfirmation: 'Password123',
+const loginDetails = {
+  email: 'oyeyipeo45@gmail.com',
+  password: '12345dfdfdfd',
 };
 
 
@@ -49,7 +49,6 @@ describe('user', () => {
   // Connect to database before any test
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
-
     await mongoose.connect(mongoServer.getUri());
   });
 
@@ -59,31 +58,37 @@ describe('user', () => {
     await mongoose.connection.close();
   });
 
-   describe('Get all users', () => {
+   describe('Get all users before registration', () => {
      it('should return empty users array', async () => {
        const { statusCode, body } = await request(server).get('/auth/users');
-      console.log(body, "body 111")
        expect(statusCode).toBe(200);
        expect(body.data).toEqual([]);
      });
    });
 
-    describe('Register user', () => {
-      it('Given the username and password are valid users should be regiatered successfully', async () => {
+    describe('Register', () => {
+      it('Given the registration data are present and valid, users should be registered successfully', async () => {
         const { statusCode, body } = await request(server).post('/auth/register').send(userPayload);
         expect(statusCode).toBe(200);
         expect(body).toEqual(userCreationResponse);
       });
     });
   
-    describe('Get all users', () => {
+    describe('Get all users users after registration', () => {
       it('should return the users array as payload', async () => {
         const { statusCode, body } = await request(server).get('/auth/users');
-        console.log(body, 'body 2222');
         expect(statusCode).toBe(200);
         expect(body.data.length).toBeGreaterThan(0);
       });
     });
+  
+    describe('login', () => {
+      it('Given the email and password are valid users should be logged in successfully', async () => {
+        const { statusCode, body } = await request(server).post('/auth/login').send(loginDetails);
+        expect(statusCode).toBe(200);
+        expect(body.data.email).toEqual('oyeyipeo45@gmail.com');
+        expect(body.message).toEqual("Login successful");
+      });
+    });
 
-   
 });

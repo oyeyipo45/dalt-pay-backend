@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import MongoStore from 'connect-mongo';
 import errorHandler from 'errorhandler';
 import authRouter from './routes/auth';
+import userRouter from './routes/user';
 
 
 dotenv.config({ path: "variable.env" });
@@ -36,6 +37,7 @@ app.use(
 }
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 app.get("/", function(req: express.Request, res: express.Response) {
     return res.status(200).json({
