@@ -21,17 +21,20 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+if (process.env.NODE_ENV !== 'test') {
 app.use(
   session({
     name: process.env.SESSION_NAME,
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-      store: MongoStore.create({
-       mongoUrl :  process.env.DEV_MONGODB
+    store: MongoStore.create({
+      mongoUrl: process.env.DEV_MONGODB,
     }),
   })
 );
+}
+  ;
 
 app.use('/auth', authRouter);
 

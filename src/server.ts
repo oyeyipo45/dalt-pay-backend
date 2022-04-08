@@ -10,11 +10,15 @@ if (major < 10 || (major === 10 && minor <= 8)) {
 }
 
 // Connect to our Database and handle any bad connections
-mongoose.connect(config.database);
-mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
-mongoose.connection.on('error', (err) => {
-  console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
-});
+
+if (process.env.NODE_ENV !== 'test') { 
+  mongoose.connect(config.database);
+  mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+  mongoose.connection.on('error', (err) => {
+    console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+  });
+}
+
 
 const server = app.listen(config.port, () => {
   console.log(`Express running → PORT ${config.port}`);

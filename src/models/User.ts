@@ -13,7 +13,9 @@ export type UserDocument = mongoose.Document & {
   password: string;
   resetPasswordToken: string;
   resetPasswordExpires: Date;
-  token: any;
+    token: any;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
 const userSchema = new mongoose.Schema(
@@ -37,7 +39,9 @@ const userSchema = new mongoose.Schema(
     token: {
       type: String,
       lowercase: true,
-    },
+        },
+    createdAt: { type: Date, required: true, default: Date.now },
+    updatedAt: { type: Date, required: false,  },
   },
   {
     toJSON: { virtuals: true },

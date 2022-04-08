@@ -1,4 +1,10 @@
 const environments: any = {};
+environments.test = {
+  port: 4000,
+  database: `${process.env.TEST_MONGODB}`,
+  envName: 'test enviroment',
+  site: 'http://localhost:4000',
+};
 environments.development = {
   port: 4000,
   database: `${process.env.DEV_MONGODB}`,
